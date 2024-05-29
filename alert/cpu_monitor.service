@@ -1,0 +1,6 @@
+[Unit]
+Description=CPU Load Monitor
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/cpu_monitor.sh

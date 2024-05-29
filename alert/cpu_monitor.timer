@@ -1,0 +1,9 @@
+[Unit]
+Description=Run CPU Load Monitor every 10 seconds
+
+[Timer]
+OnBootSec=10s
+OnUnitActiveSec=10s
+
+[Install]
+WantedBy=timers.target
