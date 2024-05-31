@@ -20,6 +20,12 @@ pip install -r requirements.txt
 
 ## Run
 
+Save presets of btop.
+
+1: cpu, disk, net
+2: proc
+
+
 ```
 bash monitor.sh
 ```

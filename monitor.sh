@@ -8,7 +8,7 @@
 export WEBDIR=./web
 export DISPLAY=:99
 SESSION=laymon
-SCREENSHOT="${WEBDIR}/screenshot.png"
+SCREENSHOT="${WEBDIR}/screenshot.jpg"
 
 # Function to handle cleanup on CTRL-C
 cleanup() {
@@ -27,26 +27,31 @@ cleanup() {
 trap cleanup SIGINT
 
 # Start Xvfb on display :99
-Xvfb $DISPLAY -screen 0 1024x768x24 &
+Xvfb $DISPLAY -screen 0 1536x864x24 &
 XVFB_PID=$!
 
 # Wait a bit to ensure Xvfb is fully started
 sleep 2
 
 # Run a shell command within the virtual display, example using xterm
-xterm -bg '#000000' -maximized -fa 'Monospace' -fs 12 -e "tmux new -s $SESSION" &
+xterm -bg '#000000' -maximized -fa 'Monospace' -fs 12 -geometry 192x54 -e "tmux new -s $SESSION" &
 TERMINAL_PID=$!
 sleep 1
 
-# Split the window vertically (20% height for the top pane)
+# Split the window vertically (10% height for the top pane)
 tmux split-window -t $SESSION -v -p 80
+
+# Split the bottom window horizontally
+tmux split-window -t $SESSION:0.1 -h -p 50
 
 # Send the command to the first pane (top pane)
 tmux send-keys -t $SESSION:0.0 'PS1="" && echo -e "\e[44m" && python3 title.py' C-m
 
-# Send the command to the second pane (bottom pane)
-tmux send-keys -t $SESSION:0.1 'btop/bin/btop' C-m
+# Send the command to the second pane (bottom left pane)
+tmux send-keys -t $SESSION:0.1 'btop/bin/btop -p 1' C-m
 
+# Send the command to the second pane (bottom left pane)
+tmux send-keys -t $SESSION:0.2 'btop/bin/btop -p 2' C-m
 
 # Wait for the command to render in the virtual display
 sleep 2

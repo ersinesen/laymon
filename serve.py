@@ -15,7 +15,7 @@ class CustomHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         if self.path == '/':
-            self.path = '/screenshot.png'
+            self.path = '/screenshot.jpg'
             return SimpleHTTPRequestHandler.do_GET(self)
         else:
             self.send_error(404, "File not found")
