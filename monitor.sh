@@ -39,13 +39,14 @@ TERMINAL_PID=$!
 sleep 1
 
 # Split the window vertically (10% height for the top pane)
-tmux split-window -t $SESSION -v -p 80
+tmux split-window -t $SESSION -v -p 90
 
 # Split the bottom window horizontally
 tmux split-window -t $SESSION:0.1 -h -p 50
 
 # Send the command to the first pane (top pane)
-tmux send-keys -t $SESSION:0.0 'PS1="" && echo -e "\e[44m" && python3 title.py' C-m
+#tmux send-keys -t $SESSION:0.0 'PS1="" && echo -e "\e[44m" && python3 title.py' C-m
+tmux send-keys -t $SESSION:0.0 'PS1="" && echo -e "\e[34m" && echo "Hostname:" `hostname` && lsb_release -d && uname -a' C-m
 
 # Send the command to the second pane (bottom left pane)
 tmux send-keys -t $SESSION:0.1 'btop/bin/btop -p 1' C-m
@@ -65,7 +66,7 @@ WEBSERVER_PID=$!
 while true; do
 
   # Capture the screen using xwd
-  xwd -root -display $DISPLAY | convert xwd:- $SCREENSHOT
+  xwd -root -display $DISPLAY | convert xwd:- -quality 90 $SCREENSHOT
 
   # Sleep for 1 second
   sleep 1

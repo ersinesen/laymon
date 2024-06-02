@@ -32,5 +32,5 @@ bash monitor.sh
 
 Access at http://localhost:13000
 
-![Sample](./sample.png)
+![Sample](./sample.jpg)
 
