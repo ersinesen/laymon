@@ -1,10 +1,23 @@
 #!/bin/bash
 
-THRESHOLD=0.1
+ENV_FILE="state.env"
+
+# Load environment variables
+if [ -f "$ENV_FILE" ]; then
+    source "$ENV_FILE"
+fi
+
+
+THRESHOLD=0.2
 LOAD=$(uptime | awk -F'load average: ' '{ print $2 }' | cut -d',' -f1)
 
 if (( $(echo "$LOAD > $THRESHOLD" | bc -l) )); then
     echo "CPU load is high: $LOAD" 
+    if [ "$ALERT_SENT" = "true" ]; then
+        echo "Alert already sent. Exiting."
+        exit 0
+    fi
+
     SUBJECT="High CPU Load Alert"
     MESSAGE="CPU load is high: $LOAD"
     TO="ersin.esen@tetrabilisim.com.tr"
@@ -34,5 +47,17 @@ if (( $(echo "$LOAD > $THRESHOLD" | bc -l) )); then
         echo -e "\n$ATTACH_ENCODED"
         echo -e "\n--$BOUNDARY--"
     ) | msmtp $TO
+
+    # Set the flag to indicate that the alert has been sent
+    ALERT_SENT=true
+    echo "ALERT_SENT=$ALERT_SENT" > "$ENV_FILE"
+
+else
+    if [ "$ALERT_SENT" = "true" ]; then
+        # Reset ALERT_SENT flag
+        ALERT_SENT=false
+        echo "ALERT_SENT=$ALERT_SENT" > "$ENV_FILE"
+        echo "Alert sent state reset."
+    fi
 fi
 
