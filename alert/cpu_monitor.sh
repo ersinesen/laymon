@@ -20,7 +20,7 @@ if (( $(echo "$LOAD > $THRESHOLD" | bc -l) )); then
 
     SUBJECT="High CPU Load Alert"
     MESSAGE="CPU load is high: $LOAD"
-    TO="ersin.esen@tetrabilisim.com.tr"
+    TO="ersin.esen@tetrabilisim.com.tr;cengizhan.degirmenci@tetrabilisim.com.tr"
     ATTACHMENT="../web/screenshot.jpg"
 
     #echo "$MESSAGE" | mail -s "$SUBJECT" "$TO"

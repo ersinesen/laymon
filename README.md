@@ -25,6 +25,9 @@ Save presets of btop.
 1: cpu, disk, net
 2: proc
 
+- set cpu for sorting and reverse for max at top
+
+**Warning**: if somebody else changes settings of this profile then it will be affective for all
 
 ```
 bash monitor.sh
